@@ -20,16 +20,51 @@ const openai = new OpenAI({
 });
 
 app.post("/api/chat", async (req, res) => {
-  const { message } = req.body;
+  const { jobDescription, message } = req.body;
 
-  if (!message) {
-    return res.status(400).json({ error: "Message is required" });
+  if (!jobDescription) {
+    return res.status(400).json({ error: "JD required" });
   }
+
+  const prompt = `Here is a job description: ${jobDescription}. Write a cover letter for this job on behalf of the user.`;
+
+  const usersName = "John Doe";
+  const wordLimit = 200;
 
   try {
     const chatCompletion = await openai.chat.completions.create({
-      messages: [{ role: "user", content: message }],
-      model: "gpt-4o",
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are an expert in recruitment and job applications. Write a cover letter for this job.",
+        },
+        {
+          role: "system",
+          content:
+            "Although we call it a letter it will be sent digitally, so we dont need subject line or an address or date.",
+        },
+        {
+          role: "system",
+          content: "Do not start with a subject line",
+        },
+        {
+          role: "system",
+          content: "Make sure to include a salutation.",
+        },
+        {
+          role: "system",
+          content: `Sign off with the users name ${usersName}`,
+        },
+        {
+          role: "system",
+          content: `The cover letter should be about ${wordLimit} words long and should explain why you are a good fit for the job.`,
+        },
+        { role: "user", content: prompt },
+      ],
+      temperature: 0.7,
+      // top_p: 1,
+      model: "gpt-3.5-turbo", //"gpt-4o",
     });
 
     res.json({ chatCompletion });
