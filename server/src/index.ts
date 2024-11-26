@@ -28,7 +28,8 @@ app.post("/api/chat", async (req, res) => {
 
   const prompt = `Here is a job description: ${jobDescription}. Write a cover letter for this job on behalf of the user.`;
 
-  const usersName = "John Doe";
+  const salutation = "Dear Hiring Manager,";
+  const name = "John Doe";
   const wordLimit = 200;
 
   try {
@@ -50,11 +51,11 @@ app.post("/api/chat", async (req, res) => {
         },
         {
           role: "system",
-          content: "Make sure to include a salutation.",
+          content: `Make sure to include the salutation ${salutation}`,
         },
         {
           role: "system",
-          content: `Sign off with the users name ${usersName}`,
+          content: `Sign off with the users name ${name}`,
         },
         {
           role: "system",
