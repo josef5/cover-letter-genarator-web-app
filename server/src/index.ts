@@ -1,9 +1,9 @@
-import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
+import dotenv from "dotenv";
+import express, { NextFunction, Request, Response } from "express";
+import { OpenAI } from "openai";
 import { errorHandler } from "./middleware/errorHandler";
 import { AppError } from "./types";
-import { OpenAI } from "openai";
-import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -20,17 +20,24 @@ const openai = new OpenAI({
 });
 
 app.post("/api/chat", async (req, res) => {
-  const { jobDescription, message } = req.body;
+  const {
+    jobDescription,
+    name,
+    salutation = "Dear Hiring Manager",
+    wordLimit = 200,
+    model = "gpt-3.5-turbo",
+    temperature = 0.7,
+  } = req.body;
 
   if (!jobDescription) {
     return res.status(400).json({ error: "JD required" });
   }
 
-  const prompt = `Here is a job description: ${jobDescription}. Write a cover letter for this job on behalf of the user.`;
+  if (!name) {
+    return res.status(400).json({ error: "Name required" });
+  }
 
-  const salutation = "Dear Hiring Manager,";
-  const name = "John Doe";
-  const wordLimit = 200;
+  const prompt = `Here is a job description, write a cover letter for this job on behalf of the user: ${jobDescription}. `;
 
   try {
     const chatCompletion = await openai.chat.completions.create({
@@ -63,9 +70,8 @@ app.post("/api/chat", async (req, res) => {
         },
         { role: "user", content: prompt },
       ],
-      temperature: 0.7,
-      // top_p: 1,
-      model: "gpt-3.5-turbo", //"gpt-4o",
+      temperature,
+      model,
     });
 
     res.json({ chatCompletion });
