@@ -30,7 +30,7 @@ app.post("/api/chat", async (req, res) => {
   } = req.body;
 
   if (!jobDescription) {
-    return res.status(400).json({ error: "JD required" });
+    return res.status(400).json({ error: "Job description required" });
   }
 
   if (!name) {

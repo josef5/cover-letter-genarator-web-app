@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import SettingsAccordion from "./components/SettingsAccordion";
 
 function App() {
   const [data, setData] = useState(null);
+  const [settings, setSettings] = useState({
+    name: "John Doe",
+    model: "gpt-4o",
+    temperature: 0.7,
+    wordLimit: 200,
+  });
 
   const jobDescription =
     "We are Awesome Co. and we are looking for a Software Engineer to join our team. You will be working on our core product, which is a platform that helps people write better cover letters. You will be responsible for building new features, fixing bugs, and improving the performance of our platform. The ideal candidate is passionate about writing clean code, has experience with React and Node.js, and is a great team player. If you are interested in this position, please send us your resume and a cover letter explaining why you are a good fit for this role.";
@@ -12,7 +19,7 @@ function App() {
   const model = "gpt-3.5-turbo"; //"gpt-4o",
   const temperature = 0.7;
 
-  useEffect(() => {
+  /* useEffect(() => {
     fetch("http://localhost:3000/api/chat", {
       method: "POST",
       headers: {
@@ -35,17 +42,24 @@ function App() {
         );
         setData(data.chatCompletion.choices[0].message.content);
       });
-  }, []);
+  }, []); */
+
+  useEffect(() => {
+    console.log("settings:", settings);
+  }, [settings]);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        {!data ? (
-          <div>Loading...</div>
-        ) : data !== null && data !== undefined ? (
-          <div style={{ whiteSpace: "pre-line" }}>{data}</div>
-        ) : null}
-      </header>
+    <div className="App p-4">
+      <header className="App-header"></header>
+      <SettingsAccordion
+        settings={settings}
+        onUpdate={(newSettings) => setSettings(newSettings)}
+      />
+      {!data ? (
+        <div>Loading...</div>
+      ) : data !== null && data !== undefined ? (
+        <div style={{ whiteSpace: "pre-line" }}>{data}</div>
+      ) : null}
     </div>
   );
 }
