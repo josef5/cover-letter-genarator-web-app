@@ -40,6 +40,7 @@ function SettingsAccordion({
 }) {
   const [value, setValue] = useState("default"); // Change to open/close
   const [settingsFormData, setSettingsFormData] = useState(settings);
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -65,7 +66,7 @@ function SettingsAccordion({
         </AccordionTrigger>
         <AccordionContent className="px-4 pb-4">
           <form onSubmit={handleSubmit}>
-            <div className="flex flex-col gap-4">
+            <div className="my-4 flex flex-col gap-4">
               <div className="flex justify-between gap-4">
                 <div className="w-full flex-1 flex-col">
                   <Label htmlFor="name" className="text-xs">
@@ -150,7 +151,7 @@ function SettingsAccordion({
                   />
                 </div>
               </div>
-              <div className="flex justify-center">
+              <div className="flex justify-start">
                 <Button type="submit" className="w-2/12 text-sm">
                   Save
                 </Button>
