@@ -14,12 +14,23 @@ function App() {
     temperature: 0.7,
     wordLimit: 200,
   });
-  const [salutation, setSalutation] = useState("Dear Hiring Manager,");
-  const [jobDescription, setJobDescription] = useState("");
+  // const [salutation, setSalutation] = useState("Dear Hiring Manager,");
+  // const [jobDescription, setJobDescription] = useState("");
+  const [userData, setUserData] = useState({
+    jobDescription: "",
+    salutation: "Dear Hiring Manager,",
+    settings: {
+      name: "John Doe",
+      model: "gpt-3.5-turbo",
+      temperature: 0.7,
+      wordLimit: 200,
+    },
+  });
 
   function handleSubmit(event: React.FormEvent) {
-    console.log("event :", event);
     event.preventDefault();
+
+    console.log("userData :", userData);
   }
 
   /* const jobDescription =
@@ -65,14 +76,16 @@ function App() {
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col gap-4">
           <SettingsAccordion
-            settings={settings}
-            onUpdate={(newSettings) => setSettings(newSettings)}
+            settings={userData.settings}
+            onUpdate={(newSettings) =>
+              setUserData({ ...userData, settings: newSettings })
+            }
           />
           <div className="">
             <Label htmlFor="salutation" className="text-xs">
               Salutation
             </Label>
-            <Input id="salutation" defaultValue={salutation}></Input>
+            <Input id="salutation" defaultValue={userData.salutation}></Input>
           </div>
           <div className="">
             <Label htmlFor="job-description" className="text-xs">
@@ -81,7 +94,12 @@ function App() {
             <Textarea
               id="job-description"
               value={jobDescription}
-              onChange={(event) => setJobDescription(event.target.value)}
+              onChange={(event) =>
+                setUserData({
+                  ...userData,
+                  jobDescription: event.target.value,
+                })
+              }
             ></Textarea>
           </div>
           <Button type="submit">Generate</Button>
