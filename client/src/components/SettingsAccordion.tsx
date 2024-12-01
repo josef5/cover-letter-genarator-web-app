@@ -12,7 +12,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState } from "react";
-import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 
@@ -128,18 +127,6 @@ function SettingsAccordion({
                   className="w-full autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))]"
                 />
               </div>
-            </div>
-            <div className="flex justify-start">
-              <Button
-                className="w-2/12 text-sm"
-                onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-                  event.preventDefault();
-
-                  setValue("close");
-                }}
-              >
-                Close
-              </Button>
             </div>
           </div>
         </AccordionContent>
