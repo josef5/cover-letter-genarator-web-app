@@ -7,7 +7,7 @@ import { Input } from "./components/ui/input";
 import { Button } from "./components/ui/button";
 
 function App() {
-  const [coverLetterText, setCoverLetterText] = useState(null);
+  const [coverLetterText, setCoverLetterText] = useState("");
   const [userData, setUserData] = useState({
     jobDescription:
       "We are Awesome Co. and we are looking for a Software Engineer to join our team. You will be working on our core product, which is a platform that helps people write better cover letters. You will be responsible for building new features, fixing bugs, and improving the performance of our platform. The ideal candidate is passionate about writing clean code, has experience with React and Node.js, and is a great team player. If you are interested in this position, please send us your resume and a cover letter explaining why you are a good fit for this role.",
@@ -73,45 +73,53 @@ function App() {
   }, [userData]);
 
   return (
-    <div className="App mx-auto max-w-5xl p-4">
+    <div className="App mx-auto max-w-5xl">
       <header className="App-header"></header>
-      <form onSubmit={handleSubmit}>
-        <div className="flex flex-col gap-4">
-          <SettingsAccordion
-            settings={userData.settings}
-            onUpdate={(newSettings) =>
-              setUserData({ ...userData, settings: newSettings })
-            }
-          />
-          <div className="">
-            <Label htmlFor="salutation" className="text-xs">
-              Salutation
-            </Label>
-            <Input id="salutation" defaultValue={userData.salutation}></Input>
-          </div>
-          <div className="">
-            <Label htmlFor="job-description" className="text-xs">
-              Job Description
-            </Label>
-            <Textarea
-              id="job-description"
-              value={userData.jobDescription}
-              onChange={(event) =>
-                setUserData({
-                  ...userData,
-                  jobDescription: event.target.value,
-                })
+      <div className="flex h-screen flex-col gap-4 py-4">
+        <form onSubmit={handleSubmit}>
+          <div className="flex flex-col gap-4">
+            <div className="">
+              <Label htmlFor="salutation" className="text-xs">
+                Salutation
+              </Label>
+              <Input id="salutation" defaultValue={userData.salutation}></Input>
+            </div>
+            <div className="">
+              <Label htmlFor="job-description" className="text-xs">
+                Job Description
+              </Label>
+              <Textarea
+                id="job-description"
+                value={userData.jobDescription}
+                onChange={(event) =>
+                  setUserData({
+                    ...userData,
+                    jobDescription: event.target.value,
+                  })
+                }
+              ></Textarea>
+            </div>
+            <SettingsAccordion
+              settings={userData.settings}
+              onUpdate={(newSettings) =>
+                setUserData({ ...userData, settings: newSettings })
               }
-            ></Textarea>
+            />
+            <Button type="submit">Generate</Button>
           </div>
-          <Button type="submit">Generate</Button>
-        </div>
-      </form>
-      {!coverLetterText ? (
-        <div>Loading...</div>
-      ) : coverLetterText !== null && coverLetterText !== undefined ? (
-        <div style={{ whiteSpace: "pre-line" }}>{coverLetterText}</div>
-      ) : null}
+        </form>
+        {!coverLetterText ? (
+          <div>Loading...</div>
+        ) : coverLetterText !== null && coverLetterText !== undefined ? (
+          <Textarea
+            style={{ whiteSpace: "pre-line" }}
+            value={coverLetterText}
+            // readOnly
+            onChange={(event) => setCoverLetterText(event.target.value)}
+            className="flex-1 bg-white text-neutral-800"
+          ></Textarea>
+        ) : null}
+      </div>
     </div>
   );
 }
