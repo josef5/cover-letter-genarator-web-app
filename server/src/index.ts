@@ -22,11 +22,8 @@ const openai = new OpenAI({
 app.post("/api/chat", async (req, res) => {
   const {
     jobDescription,
-    name,
-    salutation = "Dear Hiring Manager",
-    wordLimit = 200,
-    model = "gpt-3.5-turbo",
-    temperature = 0.7,
+    salutation,
+    settings: { name, model, temperature, wordLimit },
   } = req.body;
 
   if (!jobDescription) {
