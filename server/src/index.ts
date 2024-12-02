@@ -15,16 +15,21 @@ app.use(express.json());
 app.use(cors());
 
 // Initialize the OpenAI client
-const openai = new OpenAI({
+/* const openai = new OpenAI({
   apiKey: process.env.OPENAI_KEY,
-});
+}); */
+
+let openai: OpenAI;
 
 app.post("/api/chat", async (req, res) => {
   const {
     jobDescription,
     salutation,
-    settings: { name, model, temperature, wordLimit },
+    settings: { apiKey, name, model, temperature, wordLimit, workExperience },
   } = req.body;
+
+  // openai = new OpenAI({ apiKey });
+  openai = new OpenAI({ apiKey: process.env.OPENAI_KEY }); // TODO: revert to supplied API key
 
   if (!jobDescription) {
     return res.status(400).json({ error: "Job description required" });
@@ -43,6 +48,10 @@ app.post("/api/chat", async (req, res) => {
           role: "system",
           content:
             "You are an expert in recruitment and job applications. Write a cover letter for this job.",
+        },
+        {
+          role: "system",
+          content: `Use the users work experience to explain why they are a good fit for the job: ${workExperience}`,
         },
         {
           role: "system",
