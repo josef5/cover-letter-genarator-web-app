@@ -5,39 +5,33 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "./components/ui/label";
 import { Input } from "./components/ui/input";
 import { Button } from "./components/ui/button";
+import type { UserData } from "./types/data";
 
 function App() {
   const [coverLetterText, setCoverLetterText] = useState("");
-  const [userData, setUserData] = useState({
+  const [userData, setUserData] = useState<UserData>({
     jobDescription:
       "We are Awesome Co. and we are looking for a Software Engineer to join our team. You will be working on our core product, which is a platform that helps people write better cover letters. You will be responsible for building new features, fixing bugs, and improving the performance of our platform. The ideal candidate is passionate about writing clean code, has experience with React and Node.js, and is a great team player. If you are interested in this position, please send us your resume and a cover letter explaining why you are a good fit for this role.",
     salutation: "Dear Hiring Manager,",
     settings: {
+      apiKey: "abc123",
       name: "John Doe",
       model: "gpt-3.5-turbo",
       temperature: 0.7,
       wordLimit: 200,
+      workExperience: "",
     },
   });
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
 
-    console.log("userData :", userData);
+    // console.log("userData :", userData);
 
     fetchResponse(userData);
   }
 
-  async function fetchResponse(settings: {
-    jobDescription: string;
-    salutation: string;
-    settings: {
-      name: string;
-      model: string;
-      temperature: number;
-      wordLimit: number;
-    };
-  }) {
+  async function fetchResponse(settings: UserData) {
     console.log("settings:", settings);
 
     /* const response = await fetch("http://localhost:3000/api/chat", {
@@ -74,17 +68,17 @@ function App() {
 
   return (
     <div className="App mx-auto max-w-5xl">
-      <header className="App-header"></header>
       <div className="flex h-screen flex-col gap-4 py-4">
+        <h1 className="text-base font-bold">Cover Letter Generator</h1>
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-4">
-            <div className="">
+            <div className="flex flex-col gap-1">
               <Label htmlFor="salutation" className="text-xs">
                 Salutation
               </Label>
               <Input id="salutation" defaultValue={userData.salutation}></Input>
             </div>
-            <div className="">
+            <div className="flex flex-col gap-1">
               <Label htmlFor="job-description" className="text-xs">
                 Job Description
               </Label>

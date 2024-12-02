@@ -14,32 +14,28 @@ import {
 import { useState } from "react";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
+import { Textarea } from "./ui/textarea";
+import { Settings } from "@/types/data";
 
 function SettingsAccordion({
   settings = {
+    apiKey: "",
     name: "",
     model: "gpt-3.5-turbo",
     temperature: 0.7,
     wordLimit: 200,
+    workExperience: "",
   },
   onUpdate,
 }: {
-  settings: {
-    name: string;
-    model: string;
-    temperature: number;
-    wordLimit: number;
-  };
-  onUpdate: (settings: {
-    name: string;
-    model: string;
-    temperature: number;
-    wordLimit: number;
-  }) => void;
+  settings: Settings;
+  onUpdate: (settings: Settings) => void;
 }) {
   const [value, setValue] = useState("default"); // Change to open/close
 
-  function handleSettingsChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleSettingsChange(
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) {
     const { name, value } = event.target;
 
     onUpdate({ ...settings, [name]: value });
@@ -57,10 +53,23 @@ function SettingsAccordion({
         <AccordionTrigger className="rounded-lg border bg-neutral-800 px-4 text-sm">
           Settings
         </AccordionTrigger>
-        <AccordionContent className="px-4 pb-4">
-          <div className="my-4 flex flex-col gap-4">
-            <div className="flex justify-between gap-4">
-              <div className="w-full flex-1 flex-col">
+        <AccordionContent className="px-4">
+          <div className="mt-4 flex flex-col gap-4">
+            <div className="flex flex-col gap-1">
+              <Label htmlFor="api-key" className="text-xs">
+                OpenAI API Key
+              </Label>
+              <Input
+                name="apiKey"
+                id="api-key"
+                type="text"
+                defaultValue={settings.apiKey}
+                onChange={handleSettingsChange}
+                className="w-full autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))]"
+              />
+            </div>
+            <div className="row flex justify-between gap-4">
+              <div className="flex w-full flex-1 flex-col gap-1">
                 <Label htmlFor="name" className="text-xs">
                   Name
                 </Label>
@@ -75,10 +84,10 @@ function SettingsAccordion({
                 />
               </div>
 
-              <div className="flex-1 flex-col">
+              <div className="flex flex-1 flex-col gap-1">
                 <Label className="text-xs">Model</Label>
                 <Select
-                  name="model-select"
+                  name="model"
                   defaultValue={settings.model}
                   onValueChange={(value) =>
                     handleSettingsChange({
@@ -96,7 +105,7 @@ function SettingsAccordion({
                 </Select>
               </div>
 
-              <div className="flex-1 flex-col">
+              <div className="flex flex-1 flex-col gap-1">
                 <Label htmlFor="temperature" className="text-xs">
                   Temperature
                 </Label>
@@ -112,12 +121,12 @@ function SettingsAccordion({
                 />
               </div>
 
-              <div className="flex-1 flex-col">
+              <div className="flex flex-1 flex-col gap-1">
                 <Label htmlFor="word-limit" className="text-xs">
                   Word Limit
                 </Label>
                 <Input
-                  name="word-limit"
+                  name="wordLimit"
                   id="word-limit"
                   type="number"
                   step="1"
@@ -127,6 +136,17 @@ function SettingsAccordion({
                   className="w-full autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))]"
                 />
               </div>
+            </div>
+            <div className="flex flex-col gap-1">
+              <Label htmlFor="work-experience" className="text-xs">
+                Work Experience
+              </Label>
+              <Textarea
+                name="workExperience"
+                id="work-experience"
+                value={settings.workExperience}
+                onChange={handleSettingsChange}
+              />
             </div>
           </div>
         </AccordionContent>
