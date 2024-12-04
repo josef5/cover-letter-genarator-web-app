@@ -19,14 +19,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 
-function SettingsAccordion() {
+function SettingsAccordion({
+  accordionValue,
+  setAccordionValue,
+}: {
+  accordionValue: string;
+  setAccordionValue: (value: string) => void;
+}) {
   const { control } = useFormContext();
-  const [accordionValue, setAccordionValue] = useState("default"); // Change to open/close
+  // const [accordionValue, setAccordionValue] = useState("default"); // Change to open/close
+
+  function handleAccordionChange(value: string) {
+    setAccordionValue(value);
+  }
 
   return (
     <Accordion
@@ -34,7 +43,7 @@ function SettingsAccordion() {
       collapsible
       className=""
       value={accordionValue}
-      onValueChange={setAccordionValue}
+      onValueChange={handleAccordionChange}
     >
       <AccordionItem value="fields" className="">
         <AccordionTrigger className="rounded-lg border bg-neutral-800 px-4 text-sm">

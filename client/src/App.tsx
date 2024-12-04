@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import * as z from "zod";
 import "./App.css";
@@ -36,7 +36,8 @@ function App() {
   const [coverLetterText, setCoverLetterText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [userData, setUserData] = useState<UserData>({
+  const [accordionValue, setAccordionValue] = useState("default"); // State for accordion
+  /* const [userData, setUserData] = useState<UserData>({
     // TODO: remove placeholder values
     jobDescription:
       "We are Awesome Co. and we are looking for a Software Engineer to join our team. You will be working on our core product, which is a platform that helps people write better cover letters. You will be responsible for building new features, fixing bugs, and improving the performance of our platform. The ideal candidate is passionate about writing clean code, has experience with React and Node.js, and is a great team player. If you are interested in this position, please send us your resume and a cover letter explaining why you are a good fit for this role.",
@@ -50,7 +51,7 @@ function App() {
       workExperience:
         "I am a frontend developer with 4 years of experience in React, Vue and TypeScript.",
     },
-  });
+  });*/
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -61,7 +62,7 @@ function App() {
       salutation: "Dear Hiring Manager,",
       settings: {
         apiKey: "abc123",
-        name: "John Doe",
+        name: "John Smith",
         model: "gpt-3.5-turbo",
         temperature: 0.7,
         wordLimit: 200,
@@ -72,9 +73,7 @@ function App() {
   });
 
   function onSubmit(data: FormValues) {
-    // TODO: close settings accordion here
-
-    // console.log("userData :", userData);
+    setAccordionValue("close");
     fetchCompletion(data);
   }
 
@@ -85,6 +84,7 @@ function App() {
     console.log("userData :", userData);
 
     /* try {
+      setCoverLetterText("");
       setError(null);
       setIsLoading(true);
 
@@ -124,6 +124,7 @@ function App() {
 
     setCoverLetterText("");
     setIsLoading(false);
+    setError(null);
 
     setCoverLetterText(
       `Lorem ipsum odor amet, consectetuer adipiscing elit. Inceptos pellentesque turpis; primis pellentesque luctus in. Viverra sagittis dictum amet maecenas finibus aenean viverra semper. Parturient blandit fermentum tristique amet posuere? Phasellus lacus conubia neque auctor nisi per lectus. Eu pharetra habitant et vehicula nascetur dolor ut. Odio curabitur tempor efficitur fusce potenti. Posuere a dui venenatis gravida velit posuere. Habitasse nascetur vivamus feugiat mauris orci.
@@ -139,10 +140,6 @@ function App() {
       Netus eros velit placerat porta nullam. Habitant volutpat sed pellentesque ac rutrum metus massa. Faucibus eget nascetur elit; torquent luctus ex euismod. Senectus mus conubia tortor tempus imperdiet in donec cubilia netus. Magna arcu risus vel; aptent nec egestas? Eu suspendisse auctor quam posuere fermentum pharetra convallis. Consectetur commodo elit mi taciti tortor torquent. Erat viverra orci nisi non porttitor vivamus efficitur porttitor.`,
     );
   }
-
-  useEffect(() => {
-    console.log("userData:", userData);
-  }, [userData]);
 
   return (
     <div className="App mx-auto max-w-5xl">
@@ -179,7 +176,10 @@ function App() {
                   )}
                 />
 
-                <SettingsAccordion />
+                <SettingsAccordion
+                  accordionValue={accordionValue}
+                  setAccordionValue={setAccordionValue}
+                />
                 <Button type="submit">Generate</Button>
               </div>
             </Form>
