@@ -78,6 +78,9 @@ function App() {
     fetchCompletion(data);
   }
 
+  const sleep = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
+
   async function fetchCompletion(userData: UserData) {
     console.log("userData :", userData);
 
@@ -115,6 +118,11 @@ function App() {
       setIsLoading(false);
     } */
 
+    setIsLoading(true);
+
+    await sleep(1000);
+
+    setCoverLetterText("");
     setIsLoading(false);
 
     setCoverLetterText(
