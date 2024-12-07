@@ -14,11 +14,6 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 
-// Initialize the OpenAI client
-/* const openai = new OpenAI({
-  apiKey: process.env.OPENAI_KEY,
-}); */
-
 let openai: OpenAI;
 
 app.post("/api/chat", async (req, res) => {
