@@ -56,7 +56,9 @@ function SettingsAccordion({
               name="settings.apiKey"
               render={({ field }) => (
                 <FormItem className="flex flex-col gap-1">
-                  <FormLabel className="text-xs">OpenAI API Key</FormLabel>
+                  <FormLabel className="flex text-xs">
+                    OpenAI API Key <FormMessage className="text-xs" />
+                  </FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Enter your API key"
@@ -64,7 +66,6 @@ function SettingsAccordion({
                       className="w-full autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))]"
                     />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -93,7 +94,9 @@ function SettingsAccordion({
                 name="settings.model"
                 render={({ field }) => (
                   <FormItem className="flex flex-1 flex-col gap-1">
-                    <FormLabel className="text-xs">Model</FormLabel>
+                    <FormLabel className="flex text-xs">
+                      Model <FormMessage className="text-xs" />
+                    </FormLabel>
                     <FormControl>
                       <Select
                         onValueChange={field.onChange}
@@ -110,7 +113,6 @@ function SettingsAccordion({
                         </SelectContent>
                       </Select>
                     </FormControl>
-                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -120,7 +122,9 @@ function SettingsAccordion({
                 name="settings.temperature"
                 render={({ field }) => (
                   <FormItem className="flex flex-1 flex-col gap-1">
-                    <FormLabel className="text-xs">Temperature</FormLabel>
+                    <FormLabel className="text-xs">
+                      Temperature <FormMessage className="text-xs" />
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -132,7 +136,6 @@ function SettingsAccordion({
                         className="w-full autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))]"
                       />
                     </FormControl>
-                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -142,7 +145,9 @@ function SettingsAccordion({
                 name="settings.wordLimit"
                 render={({ field }) => (
                   <FormItem className="flex flex-1 flex-col gap-1">
-                    <FormLabel className="text-xs">Word Limit</FormLabel>
+                    <FormLabel className="flex text-xs">
+                      Word Limit <FormMessage className="text-xs" />
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -152,7 +157,6 @@ function SettingsAccordion({
                         className="w-full autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))]"
                       />
                     </FormControl>
-                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -163,11 +167,12 @@ function SettingsAccordion({
                 name="settings.workExperience"
                 render={({ field }) => (
                   <FormItem className="flex flex-col gap-1">
-                    <FormLabel className="text-xs">Work Experience</FormLabel>
+                    <FormLabel className="flex text-xs">
+                      Work Experience <FormMessage className="text-xs" />
+                    </FormLabel>
                     <FormControl>
                       <Textarea {...field} />
                     </FormControl>
-                    <FormMessage />
                   </FormItem>
                 )}
               />

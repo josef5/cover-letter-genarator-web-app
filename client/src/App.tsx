@@ -154,11 +154,13 @@ function App() {
                   name="salutation"
                   render={({ field }) => (
                     <FormItem className="flex flex-col gap-1">
-                      <FormLabel className="text-xs">Salutation</FormLabel>
+                      <FormLabel className="flex text-xs">
+                        Salutation
+                        <FormMessage className="text-xs" />
+                      </FormLabel>
                       <FormControl>
                         <Input placeholder="Dear Hiring Manager," {...field} />
                       </FormControl>
-                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -167,15 +169,16 @@ function App() {
                   name="jobDescription"
                   render={({ field }) => (
                     <FormItem className="flex flex-col gap-1">
-                      <FormLabel className="text-xs">Job Description</FormLabel>
+                      <FormLabel className="flex text-xs">
+                        Job Description
+                        <FormMessage className="text-xs" />
+                      </FormLabel>
                       <FormControl>
                         <Textarea {...field} />
                       </FormControl>
-                      <FormMessage />
                     </FormItem>
                   )}
                 />
-
                 <SettingsAccordion
                   accordionValue={accordionValue}
                   setAccordionValue={setAccordionValue}
