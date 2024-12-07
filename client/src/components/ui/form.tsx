@@ -7,24 +7,29 @@ import {
   FieldPath,
   FieldValues,
   FormProvider,
+  // useFormContext,
 } from "react-hook-form";
-import { useFormField } from "@/hooks/useFormField";
+import {
+  useFormField,
+  FormFieldContext,
+  FormItemContext,
+} from "@/hooks/useFormField";
 
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 
 const Form = FormProvider;
 
-type FormFieldContextValue<
+export type FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > = {
   name: TName;
 };
 
-const FormFieldContext = React.createContext<FormFieldContextValue>(
+/* export const FormFieldContext = React.createContext<FormFieldContextValue>(
   {} as FormFieldContextValue,
-);
+); */
 
 const FormField = <
   TFieldValues extends FieldValues = FieldValues,
@@ -62,13 +67,13 @@ const FormField = <
   };
 }; */
 
-type FormItemContextValue = {
+export type FormItemContextValue = {
   id: string;
 };
 
-const FormItemContext = React.createContext<FormItemContextValue>(
+/* export const FormItemContext = React.createContext<FormItemContextValue>(
   {} as FormItemContextValue,
-);
+); */
 
 const FormItem = React.forwardRef<
   HTMLDivElement,
@@ -146,7 +151,7 @@ const FormMessage = React.forwardRef<
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, children, ...props }, ref) => {
   const { error, formMessageId } = useFormField();
-  const body = error ? String(error?.message) : children;
+  const body = error ? `. ${String(error?.message)}` : children;
 
   if (!body) {
     return null;
