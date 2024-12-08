@@ -5,12 +5,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import {
-  // Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import {
   Select,
@@ -31,8 +29,7 @@ function SettingsAccordion({
   accordionValue: string;
   setAccordionValue: (value: string) => void;
 }) {
-  const { control } = useFormContext();
-  // const [accordionValue, setAccordionValue] = useState("default"); // Change to open/close
+  const { control } = useFormContext<FormValues>();
 
   function handleAccordionChange(value: string) {
     setAccordionValue(value);
@@ -55,10 +52,12 @@ function SettingsAccordion({
             <FormField
               control={control}
               name="settings.apiKey"
-              render={({ field }) => (
+              render={({ field, formState: { errors } }) => (
                 <FormItem className="flex flex-col gap-1">
                   <FormLabel className="flex text-xs">
-                    OpenAI API Key <FormMessage className="text-xs" />
+                    OpenAI API Key
+                    {errors?.settings?.apiKey?.message &&
+                      `. ${errors?.settings?.apiKey?.message}`}
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -75,9 +74,13 @@ function SettingsAccordion({
               <FormField
                 control={control}
                 name="settings.name"
-                render={({ field }) => (
+                render={({ field, formState: { errors } }) => (
                   <FormItem className="flex flex-1 flex-col gap-1">
-                    <FormLabel className="text-xs">Name</FormLabel>
+                    <FormLabel className="flex text-xs">
+                      Name
+                      {errors?.settings?.name?.message &&
+                        `. ${errors?.settings?.name?.message}`}
+                    </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="e.g. John Smith"
@@ -85,7 +88,6 @@ function SettingsAccordion({
                         className="w-full autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))]"
                       />
                     </FormControl>
-                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -93,10 +95,12 @@ function SettingsAccordion({
               <FormField
                 control={control}
                 name="settings.model"
-                render={({ field }) => (
+                render={({ field, formState: { errors } }) => (
                   <FormItem className="flex flex-1 flex-col gap-1">
                     <FormLabel className="flex text-xs">
-                      Model <FormMessage className="text-xs" />
+                      Model
+                      {errors?.settings?.model?.message &&
+                        `. ${errors?.settings?.model?.message}`}
                     </FormLabel>
                     <FormControl>
                       <Select
@@ -121,19 +125,24 @@ function SettingsAccordion({
               <FormField
                 control={control}
                 name="settings.temperature"
-                render={({ field }) => (
+                render={({ field, formState: { errors } }) => (
                   <FormItem className="flex flex-1 flex-col gap-1">
                     <FormLabel className="text-xs">
-                      Temperature <FormMessage className="text-xs" />
+                      Temperature
+                      {errors?.settings?.temperature?.message &&
+                        `. ${errors?.settings?.temperature?.message}`}
                     </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
-                        step="0.1"
+                        step={0.1}
                         placeholder="0.7"
-                        min="0.0"
-                        max="2.0"
+                        min={0.0}
+                        max={2.0}
                         {...field}
+                        onChange={(event) =>
+                          field.onChange(Number(event.target.value))
+                        }
                         className="w-full autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))]"
                       />
                     </FormControl>
@@ -144,17 +153,22 @@ function SettingsAccordion({
               <FormField
                 control={control}
                 name="settings.wordLimit"
-                render={({ field }) => (
+                render={({ field, formState: { errors } }) => (
                   <FormItem className="flex flex-1 flex-col gap-1">
                     <FormLabel className="flex text-xs">
-                      Word Limit <FormMessage className="text-xs" />
+                      Word Limit
+                      {errors?.settings?.wordLimit?.message &&
+                        `. ${errors?.settings?.wordLimit?.message}`}
                     </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
-                        placeholder="300"
+                        placeholder="200"
                         step="100"
                         {...field}
+                        onChange={(event) =>
+                          field.onChange(Number(event.target.value))
+                        }
                         className="w-full autofill:shadow-[inset_0_0_0px_1000px_hsl(var(--background))]"
                       />
                     </FormControl>
@@ -166,10 +180,12 @@ function SettingsAccordion({
               <FormField
                 control={control}
                 name="settings.workExperience"
-                render={({ field }) => (
+                render={({ field, formState: { errors } }) => (
                   <FormItem className="flex flex-col gap-1">
                     <FormLabel className="flex text-xs">
-                      Work Experience <FormMessage className="text-xs" />
+                      Work Experience
+                      {errors?.settings?.workExperience?.message &&
+                        `. ${errors?.settings?.workExperience?.message}`}
                     </FormLabel>
                     <FormControl>
                       <Textarea {...field} />

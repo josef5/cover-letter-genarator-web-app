@@ -10,7 +10,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import * as z from "zod";
 import "./App.css";
 import SettingsAccordion from "./components/SettingsAccordion";
 import { Button } from "./components/ui/button";
@@ -18,49 +17,19 @@ import { Input } from "./components/ui/input";
 import { formSchema, type FormValues } from "./lib/schemas/form-schema";
 import type { UserData } from "./types/data";
 
-const schema = z.object({
-  jobDescription: z.string().min(1, { message: "Required" }),
-  salutation: z.string().min(1, { message: "Required" }),
-  settings: z.object({
-    apiKey: z.string().min(1, { message: "Required" }),
-    name: z.string().min(1, { message: "Required" }),
-    model: z.string().min(1, { message: "Required" }),
-    temperature: z.number().min(0, { message: "Required" }),
-    wordLimit: z.number().min(1, { message: "Required" }),
-    workExperience: z.string().min(1, { message: "Required" }),
-  }),
-});
-
-type FormValues = z.infer<typeof schema>;
-
 function App() {
   const [coverLetterText, setCoverLetterText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [accordionValue, setAccordionValue] = useState("default"); // State for accordion
-  /* const [userData, setUserData] = useState<UserData>({
-    // TODO: remove placeholder values
-    jobDescription:
-      "We are Awesome Co. and we are looking for a Software Engineer to join our team. You will be working on our core product, which is a platform that helps people write better cover letters. You will be responsible for building new features, fixing bugs, and improving the performance of our platform. The ideal candidate is passionate about writing clean code, has experience with React and Node.js, and is a great team player. If you are interested in this position, please send us your resume and a cover letter explaining why you are a good fit for this role.",
-    salutation: "Dear Hiring Manager,",
-    settings: {
-      apiKey: "abc123",
-      name: "John Doe",
-      model: "gpt-3.5-turbo",
-      temperature: 0.7,
-      wordLimit: 200,
-      workExperience:
-        "I am a frontend developer with 4 years of experience in React, Vue and TypeScript.",
-    },
-  });*/
 
   const form = useForm<FormValues>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(formSchema),
     defaultValues: {
       // TODO: remove placeholder values
+      salutation: "Dear Hiring Manager,",
       jobDescription:
         "We are Awesome Co. and we are looking for a Software Engineer to join our team. You will be working on our core product, which is a platform that helps people write better cover letters. You will be responsible for building new features, fixing bugs, and improving the performance of our platform. The ideal candidate is passionate about writing clean code, has experience with React and Node.js, and is a great team player. If you are interested in this position, please send us your resume and a cover letter explaining why you are a good fit for this role.",
-      salutation: "Dear Hiring Manager,",
       settings: {
         apiKey: "abc123",
         name: "John Smith",
@@ -147,8 +116,8 @@ function App() {
       <div className="flex h-screen flex-col gap-4 py-4">
         <h1 className="text-base font-bold">Cover Letter Generator</h1>
         <FormProvider {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <Form {...form}>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="flex flex-col gap-4">
                 <FormField
                   control={form.control}
@@ -186,8 +155,8 @@ function App() {
                 />
                 <Button type="submit">Generate</Button>
               </div>
-            </Form>
-          </form>
+            </form>
+          </Form>
         </FormProvider>
         {error && <div className="text-red-500">{error}</div>}
         {isLoading ? (
