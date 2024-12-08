@@ -15,6 +15,7 @@ import "./App.css";
 import SettingsAccordion from "./components/SettingsAccordion";
 import { Button } from "./components/ui/button";
 import { Input } from "./components/ui/input";
+import { formSchema, type FormValues } from "./lib/schemas/form-schema";
 import type { UserData } from "./types/data";
 
 const schema = z.object({
