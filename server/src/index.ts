@@ -20,6 +20,7 @@ app.post("/api/chat", async (req, res) => {
   const {
     jobDescription,
     salutation,
+    additionalNotes,
     settings: { apiKey, name, model, temperature, wordLimit, workExperience },
   } = req.body;
 
@@ -69,6 +70,7 @@ app.post("/api/chat", async (req, res) => {
           role: "system",
           content: `The cover letter should be about ${wordLimit} words long and should explain why you are a good fit for the job.`,
         },
+        { role: "system", content: additionalNotes ?? "" },
         { role: "user", content: prompt },
       ],
       temperature,

@@ -3,6 +3,7 @@ import { z } from "zod";
 export const formSchema = z.object({
   jobDescription: z.string().min(1, { message: "Required" }),
   salutation: z.string().min(1, { message: "Required" }),
+  additionalNotes: z.string().optional(),
   settings: z.object({
     apiKey: z.string().min(1, { message: "Required" }),
     name: z.string().min(1, { message: "Required" }),
