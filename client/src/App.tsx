@@ -176,7 +176,9 @@ function App() {
         </FormProvider>
         {error && <div className="text-red-500">{error}</div>}
         {isLoading ? (
-          <div>Loading...</div>
+          <div className="mt-4 flex items-center justify-center">
+            <Spinner />
+          </div>
         ) : (
           coverLetterText && (
             <Textarea
