@@ -69,7 +69,6 @@ function SettingsAccordion({
                 </FormItem>
               )}
             />
-
             <div className="row-of-inputs flex justify-between gap-4">
               <FormField
                 control={control}
@@ -194,6 +193,8 @@ function SettingsAccordion({
                 )}
               />
             </div>
+            {/*  TODO: Add skillset? */}
+            {/* TODO: Add additional settings - e.g. British English */}
           </div>
         </AccordionContent>
       </AccordionItem>

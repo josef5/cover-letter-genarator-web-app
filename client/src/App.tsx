@@ -51,8 +51,8 @@ function App() {
     fetchCompletion(data);
   }
 
-  const sleep = (ms: number) =>
-    new Promise((resolve) => setTimeout(resolve, ms));
+  // const sleep = (ms: number) =>
+  //   new Promise((resolve) => setTimeout(resolve, ms));
 
   async function fetchCompletion(userData: UserData) {
     console.log("userData :", userData);

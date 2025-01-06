@@ -1,7 +1,7 @@
 {
-  "name": "fullstack-app",
+  "name": "cover-letter-generator-server",
   "version": "1.0.0",
-  "description": "A full-stack React/TypeScript + Express/Node application",
+  "description": "Server for the Cover Letter Generator in TypeScript + Express/Node application",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/index.ts",
