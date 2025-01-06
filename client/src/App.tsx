@@ -14,6 +14,7 @@ import "./App.css";
 import SettingsAccordion from "./components/SettingsAccordion";
 import { Button } from "./components/ui/button";
 import { Input } from "./components/ui/input";
+import Spinner from "./components/ui/spinner";
 import { formSchema, type FormValues } from "./lib/schemas/form-schema";
 import type { UserData } from "./types/data";
 
@@ -22,6 +23,8 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [accordionValue, setAccordionValue] = useState("default"); // State for accordion
+
+  // TODO: add persistence
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -33,12 +36,12 @@ function App() {
       additionalNotes: "",
       settings: {
         apiKey: "abc123",
-        name: "John Smith",
+        name: "Jose Espejo",
         model: "gpt-3.5-turbo",
         temperature: 0.7,
-        wordLimit: 200,
+        wordLimit: 300,
         workExperience:
-          "I am a frontend developer with 4 years of experience in React, Vue and TypeScript.",
+          "I am a frontend developer with 4 years of experience in React, Vue and TypeScript. In my last job I worked at a leading marketing agency; Tribal Worldwide, where our main client was Volkswagen and its subsidies Skoda and SEAT. I was a part of a team that developed and maintained a series of web apps in React and Typescript. A selection of my work can be viewed at https://joseespejo.info",
       },
     },
   });
@@ -54,7 +57,8 @@ function App() {
   async function fetchCompletion(userData: UserData) {
     console.log("userData :", userData);
 
-    /* try {
+    //*
+    try {
       setCoverLetterText("");
       setError(null);
       setIsLoading(true);
@@ -80,18 +84,23 @@ function App() {
     } catch (error) {
       if (error instanceof TypeError) {
         console.error("Network error fetching chat completion:", error);
+        setError("Network error fetching chat completion");
+
+        return;
       } else {
         console.error(error);
       }
 
-      setError((error as Error).message);
+      setError(`${(error as Error).name}. ${(error as Error).message}`);
     } finally {
       setIsLoading(false);
-    } */
+    }
 
+    /*/
+    // TODO: revert to use of API
     setIsLoading(true);
 
-    await sleep(1000);
+    await sleep(3000);
 
     setCoverLetterText("");
     setIsLoading(false);
@@ -109,7 +118,7 @@ function App() {
       Amet platea ante fusce eu auctor ornare ante. Nam class blandit dui ad orci imperdiet convallis dis mi. Enim placerat mattis inceptos purus maecenas taciti phasellus ornare. Enim sagittis eros nulla non primis. Placerat praesent mus volutpat aptent ex pharetra nullam fringilla orci. Ligula nec iaculis iaculis interdum non a eleifend. Velit magna dictum; lorem dignissim per sem. Amet egestas per donec; semper molestie curabitur. Dui sapien platea at mauris luctus mattis donec.
 
       Netus eros velit placerat porta nullam. Habitant volutpat sed pellentesque ac rutrum metus massa. Faucibus eget nascetur elit; torquent luctus ex euismod. Senectus mus conubia tortor tempus imperdiet in donec cubilia netus. Magna arcu risus vel; aptent nec egestas? Eu suspendisse auctor quam posuere fermentum pharetra convallis. Consectetur commodo elit mi taciti tortor torquent. Erat viverra orci nisi non porttitor vivamus efficitur porttitor.`,
-    );
+    ); //*/
   }
 
   return (
@@ -182,6 +191,7 @@ function App() {
         ) : (
           coverLetterText && (
             <Textarea
+              // TODO: Add copy button
               style={{ whiteSpace: "pre-line" }}
               value={coverLetterText}
               onChange={(event) => setCoverLetterText(event.target.value)}
